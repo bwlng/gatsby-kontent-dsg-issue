@@ -1,54 +1,22 @@
-<p align="center">
-  <a href="https://www.gatsbyjs.com/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter">
-    <img alt="Gatsby" src="https://www.gatsbyjs.com/Gatsby-Monogram.svg" width="60" />
-  </a>
-</p>
-<h1 align="center">
-  Gatsby minimal starter
-</h1>
+# Basic Gatsby site demonstrating the inability to use Deferred Static Generation with the Gatsby Source Kontent Plugin
 
-## 🚀 Quick start
+Create a new project use the sample project available in your Kontent account: [https://app.kontent.ai/projects/](https://app.kontent.ai/projects/)
 
-1.  **Create a Gatsby site.**
+Add the project’s ID to [`gatsby-config.js`](gatsby-config.js)
 
-    Use the Gatsby CLI to create a new site, specifying the minimal starter.
+Run `npm install` to set up project.
 
-    ```shell
-    # create a new Gatsby site using the minimal starter
-    npm init gatsby
-    ```
+Run `npm run build` to build.
 
-2.  **Start developing.**
+A page is created for each __Article__ item in the Kontent project and uses the new defer argument for `createPage` action in [`gatsby-node.js`](gatsby-node.js) to exclude the page from the build step and instead generate it during the first HTTP request.
 
-    Navigate into your new site’s directory and start it up.
+During the __Validating Rendering Engines__ portion of the build process, the following error is thrown:
 
-    ```shell
-    cd my-gatsby-site/
-    npm run develop
-    ```
+```bash
+Gatsby kontent source plugin resulted to error in `createSchemaCustomization` method ENOENT: no such file or directory, open '.cache/query-engine/template.items.schema.gql'
 
-3.  **Open the code and start customizing!**
+  Error: ENOENT: no such file or directory, open '.cache/query-engi
+  ne/template.items.schema.gql'
+```
 
-    Your site is now running at http://localhost:8000!
-
-    Edit `src/pages/index.js` to see your site update in real-time!
-
-4.  **Learn more**
-
-    - [Documentation](https://www.gatsbyjs.com/docs/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-
-    - [Tutorials](https://www.gatsbyjs.com/tutorial/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-
-    - [Guides](https://www.gatsbyjs.com/tutorial/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-
-    - [API Reference](https://www.gatsbyjs.com/docs/api-reference/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-
-    - [Plugin Library](https://www.gatsbyjs.com/plugins?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-
-    - [Cheat Sheet](https://www.gatsbyjs.com/docs/cheat-sheet/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-
-## 🚀 Quick start (Gatsby Cloud)
-
-Deploy this starter with one click on [Gatsby Cloud](https://www.gatsbyjs.com/cloud/):
-
-[<img src="https://www.gatsbyjs.com/deploynow.svg" alt="Deploy to Gatsby Cloud">](https://www.gatsbyjs.com/dashboard/deploynow?url=https://github.com/gatsbyjs/gatsby-starter-minimal)
+Remove the defer argument from the `createPage` action then run `npm run build` and the site will build as expected.
